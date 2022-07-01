@@ -1,6 +1,6 @@
 # yasblang
 
-yasblang (yet another stack based {programming} language) is a programming language made and maintained by me.  
+yasblang (yet another stack based {programming} language) is a programming language made and maintained by me.
 developed using concepts of forth (https://en.wikipedia.org/wiki/Forth_(programming_language)).
 
 # warning
@@ -17,4 +17,5 @@ to build, simply open the project folder, and type make in the console (make sur
 # little FAQ
 
 > why another stack based programming language?
+
 i have made it purely out of fun. it is not designed to be ran and used daily as a normal programming language
