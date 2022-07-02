@@ -32,7 +32,7 @@ void handle_args(int argc, char *argv[]) {
 
 wrong:
 	printf("\n[ERROR] arguments were used in the wrong way.\n");
-	printf("[HINT] how to use: yasb (for the shell) or yasb run example.yasb (to run from a file)\n");
+	printf("[HINT] how to use: yasb (for the shell) or yasb run example.yasb (to run a file)\n");
 	exit(0);
 }
 
@@ -71,6 +71,7 @@ int main(int argc, char *argv[]) {
 			parser.parse();
 		}
 	} else {
+		printf("[INFO] running: %s\n\n", args::file_name);
 		parser parser(args::file_name);
 		parser.parse();
 	}

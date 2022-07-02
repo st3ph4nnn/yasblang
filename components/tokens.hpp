@@ -15,6 +15,8 @@ public:
     token(symbols sy) : type(sy) {};
     token(operations op) : type(op) {};
     token(token_type type_, double val = 0, std::string str = "") : type(type_), value(val), str(str) {};
+    token(operations op, double val = 0, std::string str = "") : type(op), value(val), str(str) {};
+    token(symbols sy, double val = 0, std::string str = "") : type(sy), value(val), str(str) {};
 
     bool is_operation() {
     	return (this->type >= 0 && this->type <= 3);

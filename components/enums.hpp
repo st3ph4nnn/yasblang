@@ -21,5 +21,7 @@ enum token_type {
     other = 0,
 
     v_num = 1,
-    v_str = 2
+    v_str = 2,
+    word = 3,
+    end = 4
 };

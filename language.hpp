@@ -2,11 +2,28 @@
 #include <stack>
 #include <vector>
 #include <iostream>
-#include <variant>
 #include <cmath>
 
 #include "components/tokens.hpp"
 #include "utilities/error_handling.hpp"
+
+#include "components/parser.hpp"
+
+#include <sstream>
+#include <algorithm>
+
+std::vector<std::string> tokenize(std::string const &str, const char delim) {
+    std::stringstream ss(str);
+    std::vector<std::string> out;
+ 
+    std::string s;
+    while (std::getline(ss, s, delim)) {
+    	s.erase(std::remove(s.begin(), s.end(), '\t'), s.end());
+        out.push_back(s);
+    }
+
+    return out;
+}
 
 namespace stacks {
 	std::stack<int> int_stack;
@@ -34,7 +51,7 @@ void handle_symbols(token tk) {
 			switch (stacks::selected) {
 				case 0: {
 					if (stacks::int_stack.size() <= 1)
-						error("math", "not enough stack members for equal checking.");
+						error("math", "not enough stack members for equal checking. (integer stack)");
 
 					int first = stacks::int_stack.top();
 					stacks::int_stack.pop();
@@ -47,7 +64,7 @@ void handle_symbols(token tk) {
 				}
 				case 1: {
 					if (stacks::double_stack.size() <= 1)
-						error("math", "not enough stack members for equal checking.");
+						error("math", "not enough stack members for equal checking. (floating point int stack)");
 
 					double first = stacks::double_stack.top();
 					stacks::double_stack.pop();
@@ -60,7 +77,7 @@ void handle_symbols(token tk) {
 				}
 				case 2: {
 					if (stacks::str_stack.size() <= 1)
-						error("math", "not enough stack members for equal checking.");
+						error("math", "not enough stack members for equal checking. (string stack)");
 
 					std::string first = stacks::str_stack.top();
 					stacks::str_stack.pop();
@@ -80,7 +97,7 @@ void handle_symbols(token tk) {
 			switch (stacks::selected) {
 				case 0: {
 					if (stacks::int_stack.size() <= 1)
-						error("math", "not enough stack members for greater than checking.");
+						error("math", "not enough stack members for greater than checking. (integer stack)");
 
 					int first = stacks::int_stack.top();
 					stacks::int_stack.pop();
@@ -93,7 +110,7 @@ void handle_symbols(token tk) {
 				}
 				case 1: {
 					if (stacks::double_stack.size() <= 1)
-						error("math", "not enough stack members for greater than checking.");
+						error("math", "not enough stack members for greater than checking. (floating point int stack)");
 
 					double first = stacks::double_stack.top();
 					stacks::double_stack.pop();
@@ -106,7 +123,7 @@ void handle_symbols(token tk) {
 				}
 				case 2: {
 					if (stacks::str_stack.size() <= 1)
-						error("math", "not enough stack members for greater than checking.");
+						error("math", "not enough stack members for greater than checking. (string stack)");
 
 					std::string first = stacks::str_stack.top();
 					stacks::str_stack.pop();
@@ -126,7 +143,7 @@ void handle_symbols(token tk) {
 			switch (stacks::selected) {
 				case 0: {
 					if (stacks::int_stack.size() <= 1)
-						error("math", "not enough stack members for lower than checking.");
+						error("math", "not enough stack members for lower than checking. (integer stack)");
 
 					int first = stacks::int_stack.top();
 					stacks::int_stack.pop();
@@ -140,7 +157,7 @@ void handle_symbols(token tk) {
 				}
 				case 1: {
 					if (stacks::double_stack.size() <= 1)
-						error("math", "not enough stack members for lower than checking.");
+						error("math", "not enough stack members for lower than checking. (floating point int stack)");
 
 					double first = stacks::double_stack.top();
 					stacks::double_stack.pop();
@@ -154,7 +171,7 @@ void handle_symbols(token tk) {
 				}
 				case 2: {
 					if (stacks::str_stack.size() <= 1)
-						error("math", "not enough stack members for lower than checking.");
+						error("math", "not enough stack members for lower than checking. (string stack)");
 
 					std::string first = stacks::str_stack.top();
 					stacks::str_stack.pop();
@@ -179,7 +196,7 @@ void handle_math(token tk) {
 			switch (stacks::selected) {
 				case 0: {
 					if (stacks::int_stack.size() <= 1)
-						error("math", "not enough stack members for adding.");
+						error("math", "not enough stack members for adding. (integer stack)");
 
 					int first = stacks::int_stack.top();
 					stacks::int_stack.pop();
@@ -190,7 +207,7 @@ void handle_math(token tk) {
 				}
 				case 1: {
 					if (stacks::double_stack.size() <= 1)
-						error("math", "not enough stack members for adding.");
+						error("math", "not enough stack members for adding. (floating point int stack)");
 
 					double first = stacks::double_stack.top();
 					stacks::double_stack.pop();
@@ -201,7 +218,7 @@ void handle_math(token tk) {
 				}
 				case 2: {
 					if (stacks::str_stack.size() <= 1)
-						error("math", "not enough stack members for adding.");
+						error("math", "not enough stack members for adding. (string stack)");
 
 					std::string first = stacks::str_stack.top();
 					stacks::str_stack.pop();
@@ -220,7 +237,7 @@ void handle_math(token tk) {
 			switch (stacks::selected) {
 				case 0: {
 					if (stacks::int_stack.size() <= 1)
-						error("math", "not enough stack members for substracting.");
+						error("math", "not enough stack members for substracting. (integer stack)");
 
 					int first = stacks::int_stack.top();
 					stacks::int_stack.pop();
@@ -231,7 +248,7 @@ void handle_math(token tk) {
 				}
 				case 1: {
 					if (stacks::double_stack.size() <= 1)
-						error("math", "not enough stack members for substracting.");
+						error("math", "not enough stack members for substracting. (floating point int stack)");
 
 					double first = stacks::double_stack.top();
 					stacks::double_stack.pop();
@@ -242,7 +259,7 @@ void handle_math(token tk) {
 				}
 				case 2: {
 					if (stacks::str_stack.size() <= 1)
-						error("math", "not enough stack members for substracting.");
+						error("math", "not enough stack members for substracting. (string stack)");
 
 					std::string first = stacks::str_stack.top();
 					stacks::str_stack.pop();
@@ -263,7 +280,7 @@ void handle_math(token tk) {
 			switch (stacks::selected) {
 				case 0: {
 					if (stacks::int_stack.size() <= 1)
-						error("math", "not enough stack members for multplying.");
+						error("math", "not enough stack members for multplying. (integer stack)");
 
 					int first = stacks::int_stack.top();
 					stacks::int_stack.pop();
@@ -274,7 +291,7 @@ void handle_math(token tk) {
 				}
 				case 1: {
 					if (stacks::double_stack.size() <= 1)
-						error("math", "not enough stack members for substracting.");
+						error("math", "not enough stack members for substracting. (floating point int stack)");
 
 					double first = stacks::double_stack.top();
 					stacks::double_stack.pop();
@@ -294,7 +311,7 @@ void handle_math(token tk) {
 			switch (stacks::selected) {
 				case 0: {
 					if (stacks::int_stack.size() <= 1)
-						error("math", "not enough stack members for division.");
+						error("math", "not enough stack members for division. (integer stack)");
 
 					int first = stacks::int_stack.top();
 					stacks::int_stack.pop();
@@ -305,7 +322,7 @@ void handle_math(token tk) {
 				}
 				case 1: {
 					if (stacks::double_stack.size() <= 1)
-						error("math", "not enough stack members for division.");
+						error("math", "not enough stack members for division. (floating point int stack)");
 
 					double first = stacks::double_stack.top();
 					stacks::double_stack.pop();
@@ -325,7 +342,7 @@ void handle_math(token tk) {
 			switch (stacks::selected) {
 				case 0: {
 					if (stacks::int_stack.size() <= 1)
-						error("math", "not enough stack members for power.");
+						error("math", "not enough stack members for power. (integer stack)");
 
 					int first = stacks::int_stack.top();
 					stacks::int_stack.pop();
@@ -336,7 +353,7 @@ void handle_math(token tk) {
 				}
 				case 1: {
 					if (stacks::double_stack.size() <= 1)
-						error("math", "not enough stack members for power.");
+						error("math", "not enough stack members for power. (floating point int stack)");
 
 					double first = stacks::double_stack.top();
 					stacks::double_stack.pop();
@@ -356,7 +373,7 @@ void handle_math(token tk) {
 			switch (stacks::selected) {
 				case 0: {
 					if (stacks::int_stack.size() <= 1)
-						error("math", "not enough stack members for modulo.");
+						error("math", "not enough stack members for mod. (integer stack)");
 
 					int first = stacks::int_stack.top();
 					stacks::int_stack.pop();
@@ -366,11 +383,11 @@ void handle_math(token tk) {
 					break;
 				}
 				case 1: {
-					error("math", "modulo is not allowed on floats.");
+					error("math", "mod is not allowed on floats.");
 					break;
 				}
 				case 2: {
-					error("math", "modulo is not allowed on strings.");
+					error("math", "mod is not allowed on strings.");
 					break;
 				}
 			}
@@ -379,12 +396,28 @@ void handle_math(token tk) {
 	}
 }
 
-void print_stack() {
-	switch (stacks::selected) {
+bool handle_keywords(token tk) {
+	if (tk.str == "int") {
+		stacks::selected = 0;
+		return true;
+	}
+
+	if (tk.str == "float") {
+		stacks::selected = 1;
+		return true;
+	}
+
+	if (tk.str == "string") {
+		stacks::selected = 2;
+		return true;
+	}
+
+	if (tk.str == "print") {
+		switch (stacks::selected) {
 		case 0: {
 			std::stack<int> copy = stacks::int_stack;
 			int sz = copy.size();
-			printf("\n%s\n\n", (sz == 0 ? "The current stack is currently empty." : "[PRINT] integer stack:"));
+			printf("\n%s\n\n", (sz == 0 ? "The integer stack is currently empty." : "[PRINT] integer stack:"));
 			while (!copy.empty()) {
 				if (sz == copy.size())
 					printf("%d <--- TOP\n", copy.top());
@@ -398,7 +431,7 @@ void print_stack() {
 		case 1: {
 			std::stack<double> copy = stacks::double_stack;
 			int sz = copy.size();
-			printf("\n%s\n\n", (sz == 0 ? "The current stack is currently empty." : "[PRINT] floating point integer stack:"));
+			printf("\n%s\n\n", (sz == 0 ? "The floating point integer stack is currently empty." : "[PRINT] floating point integer stack:"));
 			while (!copy.empty()) {
 				if (sz == copy.size())
 					printf("%f <--- TOP\n", copy.top());
@@ -412,40 +445,19 @@ void print_stack() {
 		case 2: {
 			std::stack<std::string> copy = stacks::str_stack;
 			int sz = copy.size();
-			printf("\n%s\n\n", (sz == 0 ? "The current stack is currently empty." : "[PRINT] string stack:"));
+			printf("\n%s\n\n", (sz == 0 ? "The string stack is currently empty." : "[PRINT] string stack:"));
 			while (!copy.empty()) {
 				if (sz == copy.size())
 					printf("%s <--- TOP\n", copy.top().c_str());
 				else
 					printf("%s\n", copy.top().c_str());
 
-				printf("%s\n", copy.top().c_str());
 				copy.pop();
 			}
 			break;
 		}
 	}
-}
-
-void handle_keywords(token tk) {
-	if (tk.str == "int") {
-		stacks::selected = 0;
-		return;
-	}
-
-	if (tk.str == "float") {
-		stacks::selected = 1;
-		return;
-	}
-
-	if (tk.str == "string") {
-		stacks::selected = 2;
-		return;
-	}
-
-	if (tk.str == "print") {
-		print_stack();
-		return;
+		return true;
 	}
 
 	if (tk.str == "exit" || tk.str == "quit")
@@ -457,7 +469,7 @@ void handle_keywords(token tk) {
 			case 1: while (!stacks::double_stack.empty()) stacks::double_stack.pop(); break;
 			case 2: while (!stacks::str_stack.empty()) stacks::str_stack.pop(); break;
 		}
-		return;
+		return true;
 	}
 
 	if (tk.str == "size" || tk.str == "length") {
@@ -475,92 +487,92 @@ void handle_keywords(token tk) {
 				break;
 			}
 		}
-		return;
+		return true;
 	}
 
 	if (tk.str == "pop" || tk.str == "drop") {
 		switch (stacks::selected) {
 			case 0: {
 				if (stacks::int_stack.size() == 0)
-					error("could not drop/pop the top element", "stack is empty");
+					error("could not drop/pop the top element", "stack is empty. (integer stack)");
 				stacks::int_stack.pop();
 				break;
 			}
 			case 1: {
 				if (stacks::double_stack.size() == 0)
-					error("could not drop/pop the top element", "stack is empty");
+					error("could not drop/pop the top element", "stack is empty. (floating point int stack)");
 				stacks::double_stack.pop();
 				break;	
 			}
 			case 2: {
 				if (stacks::str_stack.size() == 0)
-					error("could not drop/pop the top element", "stack is empty");
+					error("could not drop/pop the top element", "stack is empty. (string stack)");
 				stacks::str_stack.pop();
 				break;
 			}
 		}
-		return;
+		return true;
 	}
 
 	if (tk.str == "dup") {
 		switch (stacks::selected) {
 			case 0: {
 				if (stacks::int_stack.size() == 0)
-					error("could not duplicate the top element", "stack is empty");
+					error("could not duplicate the top element", "stack is empty. (integer stack)");
 
 				stacks::int_stack.push(stacks::int_stack.top());
 				break;
 			}
 			case 1: {
 				if (stacks::double_stack.size() == 0)
-					error("could not duplicate the top element", "stack is empty");
+					error("could not duplicate the top element", "stack is empty. (floating point int stack)");
 
 				stacks::double_stack.push(stacks::double_stack.top());
 				break;
 			}
 			case 2: {
 				if (stacks::str_stack.size() == 0)
-					error("could not duplicate the top element", "stack is empty");
+					error("could not duplicate the top element", "stack is empty. (string stack)");
 
 				stacks::str_stack.push(stacks::str_stack.top());
 				break;
 			}
 		}
-		return;
+		return true;
 	}
 
 	if (tk.str == "top") {
 		switch (stacks::selected) {
 			case 0: {
 				if (stacks::int_stack.size() == 0)
-					error("could not print the top element", "stack is empty");
+					error("could not print the top element", "stack is empty. (integer stack)");
 
 				printf("%d\n", stacks::int_stack.top());
 				break;
 			}
 			case 1: {
 				if (stacks::double_stack.size() == 0)
-					error("could not print the top element", "stack is empty");
+					error("could not print the top element", "stack is empty. (floating point int stack)");
 
 				printf("%f\n", stacks::double_stack.top());
 				break;
 			}
 			case 2: {
 				if (stacks::str_stack.size() == 0)
-					error("could not print the top element", "stack is empty");
+					error("could not print the top element", "stack is empty. (string stack)");
 
-				printf("%s\n", stacks::str_stack.top());
+				printf("%s\n", stacks::str_stack.top().c_str());
 				break;
 			}
 		}
-		return;
+		return true;
 	}
 
 	if (tk.str == ".") {
 		switch (stacks::selected) {
 			case 0: {
 				if (stacks::int_stack.size() == 0)
-					error("could not print the top element", "stack is empty");
+					error("could not print the top element", "stack is empty. (integer stack)");
 
 				printf("%d\n", stacks::int_stack.top());
 				stacks::int_stack.pop();
@@ -568,7 +580,7 @@ void handle_keywords(token tk) {
 			}
 			case 1: {
 				if (stacks::double_stack.size() == 0)
-					error("could not print the top element", "stack is empty");
+					error("could not print the top element", "stack is empty. (floating point int stack)");
 
 				printf("%f\n", stacks::double_stack.top());
 				stacks::double_stack.pop();
@@ -576,21 +588,21 @@ void handle_keywords(token tk) {
 			}
 			case 2: {
 				if (stacks::str_stack.size() == 0)
-					error("could not print the top element", "stack is empty");
+					error("could not print the top element", "stack is empty. (string stack)");
 
-				printf("%s\n", stacks::str_stack.top());
+				printf("%s\n", stacks::str_stack.top().c_str());
 				stacks::str_stack.pop();
 				break;
 			}
 		}
-		return;
+		return true;
 	}
 
 	if (tk.str == "negate") {
 		switch (stacks::selected) {
 			case 0: {
 				if (stacks::int_stack.size() == 0)
-					error("could not negate the top element", "stack is empty");
+					error("could not negate the top element", "stack is empty. (integer stack)");
 
 				int top = stacks::int_stack.top();
 				stacks::int_stack.pop();
@@ -599,7 +611,7 @@ void handle_keywords(token tk) {
 			}
 			case 1: {
 				if (stacks::double_stack.size() == 0)
-					error("could not negate the top element", "stack is empty");
+					error("could not negate the top element", "stack is empty. (floating point int stack)");
 
 				double top = stacks::double_stack.top();
 				stacks::double_stack.pop();
@@ -611,14 +623,14 @@ void handle_keywords(token tk) {
 				break;	
 			}
 		}
-		return;
+		return true;
 	}
 
 	if (tk.str == "abs") {
 		switch (stacks::selected) {
 			case 0: {
 				if (stacks::int_stack.size() == 0)
-					error("could not absolute the top element", "stack is empty");
+					error("could not absolute the top element", "stack is empty. (integer stack)");
 
 				int top = stacks::int_stack.top();
 				stacks::int_stack.pop();
@@ -627,7 +639,7 @@ void handle_keywords(token tk) {
 			}
 			case 1: {
 				if (stacks::double_stack.size() == 0)
-					error("could not absolute the top element", "stack is empty");
+					error("could not absolute the top element", "stack is empty. (floating point int stack)");
 
 				double top = stacks::double_stack.top();
 				stacks::double_stack.pop();
@@ -635,18 +647,18 @@ void handle_keywords(token tk) {
 				break;
 			}
 			case 2: {
-				error("math", "absolute is not allowed on strings."); 
+				error("math", "absolution is not allowed on strings."); 
 				break;	
 			}
 		}
-		return;
+		return true;
 	}
 
 	if (tk.str == "max") {
 		switch (stacks::selected) {
 			case 0: {
 				if (stacks::int_stack.size() <= 1)
-					error("could not max the top two elements", "not enough elements");
+					error("could not max the top two elements", "not enough elements. (integer stack)");
 
 				int first = stacks::int_stack.top();
 				stacks::int_stack.pop();
@@ -657,7 +669,7 @@ void handle_keywords(token tk) {
 			}
 			case 1: {
 				if (stacks::double_stack.size() <= 1)
-					error("could not max the top two elements", "not enough elements");
+					error("could not max the top two elements", "not enough elements. (floating point int stack)");
 
 				double first = stacks::double_stack.top();
 				stacks::double_stack.pop();
@@ -668,7 +680,7 @@ void handle_keywords(token tk) {
 			}
 			case 2: {
 				if (stacks::str_stack.size() <= 1)
-					error("could not max the top two elements", "not enough elements");
+					error("could not max the top two elements", "not enough elements. (string stack)");
 
 				std::string first = stacks::str_stack.top();
 				stacks::str_stack.pop();
@@ -679,14 +691,14 @@ void handle_keywords(token tk) {
 				break;
 			}
 		}
-		return;
+		return true;
 	}
 
 	if (tk.str == "min") {
 		switch (stacks::selected) {
 			case 0: {
 				if (stacks::int_stack.size() <= 1)
-					error("could not min the top two elements", "not enough elements");
+					error("could not min the top two elements", "not enough elements. (integer stack)");
 
 				int first = stacks::int_stack.top();
 				stacks::int_stack.pop();
@@ -697,7 +709,7 @@ void handle_keywords(token tk) {
 			}
 			case 1: {
 				if (stacks::double_stack.size() <= 1)
-					error("could not min the top two elements", "not enough elements");
+					error("could not min the top two elements", "not enough elements. (floating point int stack)");
 
 				double first = stacks::double_stack.top();
 				stacks::double_stack.pop();
@@ -708,7 +720,7 @@ void handle_keywords(token tk) {
 			}
 			case 2: {
 				if (stacks::str_stack.size() <= 1)
-					error("could not min the top two elements", "not enough elements");
+					error("could not min the top two elements", "not enough elements. (string stack)");
 
 				std::string first = stacks::str_stack.top();
 				stacks::str_stack.pop();
@@ -719,14 +731,14 @@ void handle_keywords(token tk) {
 				break;
 			}
 		}
-		return;
+		return true;
 	}
 
 	if (tk.str == "swap") {
 				switch (stacks::selected) {
 			case 0: {
 				if (stacks::int_stack.size() <= 1)
-					error("could not swap the top two elements", "not enough elements");
+					error("could not swap the top two elements", "not enough elements. (integer stack)");
 
 				int first = stacks::int_stack.top();
 				stacks::int_stack.pop();
@@ -739,7 +751,7 @@ void handle_keywords(token tk) {
 			}
 			case 1: {
 				if (stacks::double_stack.size() <= 1)
-					error("could not swap the top two elements", "not enough elements");
+					error("could not swap the top two elements", "not enough elements. (floating point int stack)");
 
 				double first = stacks::double_stack.top();
 				stacks::double_stack.pop();
@@ -752,7 +764,7 @@ void handle_keywords(token tk) {
 			}
 			case 2: {
 				if (stacks::str_stack.size() <= 1)
-					error("could not swap the top two elements", "not enough elements");
+					error("could not swap the top two elements", "not enough elements. (string stack)");
 
 				std::string first = stacks::str_stack.top();
 				stacks::str_stack.pop();
@@ -764,8 +776,66 @@ void handle_keywords(token tk) {
 				break;
 			}
 		}
-		return;
+		return true;
 	}
 
-	error("found unknown keyword", tk.str);
+	if (tk.str == "emit") {
+		if (stacks::int_stack.size() == 0)
+			error("invalid emit", "top element does not exist.");
+
+		int top = stacks::int_stack.top();
+
+		if (top < 0 || top > 127)
+			error("invalid emit", "ascii char " + std::to_string(top) + " does not exist.");
+
+		printf("%c", top);
+		stacks::int_stack.pop();
+
+		return true;
+	}
+
+	return false;
+}
+
+#include "components/words.hpp"
+
+std::vector<word_class> words;
+
+std::vector<std::string> keywords { "int", "float", "string", "print", "exit", "quit", "size", "length", "clear", "pop", "drop", "dup", "top", ".", "negate", "abs", "swap", "max", "min", "emit" };
+
+void parse_word(token tk) {
+	for (auto i : words) {
+		if (i.name == tk.str) {
+			i.parse_word();
+			return;
+		}
+	}
+
+	error("invalid word", tk.str + " is not a word/keyword");
+}
+
+int handle_word(std::vector<std::vector<token>> &tks, int i, int j) {
+	std::vector<std::string> cpy;
+	for (auto i : words)
+		cpy.emplace_back(i.name);
+
+	if (std::binary_search(cpy.begin(), cpy.end(), tks[i][j+1].str))
+		error("invalid word", "'" + tks[i][j+1].str + "' word already exists.");
+
+	if (std::count(keywords.begin(), keywords.end(), tks[i][j+1].str))
+		error("invalid word", "'" + tks[i][j+1].str + "' is a already existing keyword.");
+
+	std::string name = tks[i][j+1].str;
+	std::string content = "";
+
+	int to_add = 1;
+
+	for (int x = j+2; tks[i][x].str != ";"; x++) {
+		content += (tks[i][x].str + " ");
+		to_add++;
+	}
+
+	words.emplace_back(word_class(name, content));
+
+	return to_add;
 }

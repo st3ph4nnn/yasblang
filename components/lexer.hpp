@@ -23,6 +23,11 @@ public:
         std::string num_str;
         bool fl = false;
 
+        if (current_character == '-') {
+            num_str += "-";
+            this->advance();
+        }
+
         while (current_character != 0 && ((current_character >= '0' && current_character <= '9') || current_character == '.' || current_character == '-')) {
             if (current_character == '.') {
                 if (fl) break;
@@ -34,17 +39,14 @@ public:
             this->advance();
         }
 
-        return token(token_type::v_num, std::stod(num_str));
+        return token(token_type::v_num, std::stod(num_str), num_str);
     }
 
     token get_str() {
     	std::string str;
 
     	while (current_character != 0 && current_character != '\"') {
-            if (current_character == '/' || current_character == '_')
-                str += " ";
-            else
-    		    str += current_character;
+    		str += current_character;
     		this->advance();
     	}
         
@@ -54,7 +56,7 @@ public:
     token get_keyword() {
         std::string str;
 
-        while (current_character != 0) {
+        while (current_character != 0 && current_character != ' ') {
             str += current_character;
             this->advance();
         }
@@ -73,25 +75,33 @@ public:
         return false;
     }
 
+    void skip_to_next() {
+        while (this->current_character != ' ')
+            this->advance();
+
+        if (this->current_character == ' ')
+            this->advance();
+    }
+
     std::vector<token> make_tokens() {
         std::vector<token> tokens;
 
-        if (current_character == ' ' || current_character == '\t')
-            this->advance();
-
-        if (current_character >= '0' && current_character <= '9') {
-            tokens.emplace_back(this->get_number());
-        }
-
-       	if (current_character == '\"') {
-       		this->advance();
-            tokens.emplace_back(this->get_str());
-       	}
-
-        if (current_character >= 'a' && current_character <= 'z' || current_character == '.')
-            tokens.emplace_back(this->get_keyword());
-
         while (current_character != 0) {
+            if (current_character == ' ' || current_character == '\t')
+                this->advance();
+
+            if (current_character >= '0' && current_character <= '9')
+                tokens.emplace_back(this->get_number());
+
+            if (current_character == '\"') {
+                this->advance();
+                tokens.emplace_back(this->get_str());
+            }
+
+            if (current_character >= 'a' && current_character <= 'z' || current_character == '.') {
+                tokens.emplace_back(this->get_keyword());
+            }
+
             switch (current_character) {
             case '-':
                 if (part_of_number()) {
@@ -99,31 +109,37 @@ public:
                     break;
                 }
 
-                tokens.emplace_back(token(operations::substract));
+                tokens.emplace_back(token(operations::substract, 0, "-"));
                 break;
             case '+':
-                tokens.emplace_back(token(operations::add));
+                tokens.emplace_back(token(operations::add, 0, "+"));
                 break;
             case '*':
-                tokens.emplace_back(token(operations::multiply));
+                tokens.emplace_back(token(operations::multiply, 0, "*"));
                 break;
             case '/':
-                tokens.emplace_back(token(operations::divide));
+                tokens.emplace_back(token(operations::divide, 0, "/"));
                 break;
             case '^':
-                tokens.emplace_back(token(operations::power));
+                tokens.emplace_back(token(operations::power, 0, "^"));
                 break;
             case '%':
-                tokens.emplace_back(token(operations::modulo));
+                tokens.emplace_back(token(operations::modulo, 0, "%"));
                 break;
             case '=':
-                tokens.emplace_back(token(symbols::equal));
+                tokens.emplace_back(token(symbols::equal, 0, "="));
                 break;
             case '>':
-                tokens.emplace_back(token(symbols::greater_than));
+                tokens.emplace_back(token(symbols::greater_than, 0, ">"));
                 break;
             case '<':
-                tokens.emplace_back(token(symbols::lower_than));
+                tokens.emplace_back(token(symbols::lower_than, 0, "<"));
+                break;
+            case ':':
+                tokens.emplace_back(token(token_type::word, 0, ":"));
+                break;
+            case ';':
+                tokens.emplace_back(token(token_type::end, 0, ";"));
                 break;
             }
 
