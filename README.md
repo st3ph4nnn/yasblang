@@ -5,8 +5,7 @@ developed using (mainly) concepts of forth (https://en.wikipedia.org/wiki/Forth_
 
 little preview (does not include all the features, may be outdated):
 
-<script id="asciicast-O1pncmWB9BRfhynIo26b1qtMj" src="https://asciinema.org/a/O1pncmWB9BRfhynIo26b1qtMj.js" async></script>
-
+[![asciicast](https://asciinema.org/a/O1pncmWB9BRfhynIo26b1qtMj.svg)](https://asciinema.org/a/O1pncmWB9BRfhynIo26b1qtMj)
 
 # warning
 
