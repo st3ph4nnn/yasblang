@@ -3,6 +3,9 @@
 yasblang (yet another stack based {programming} language) is a programming language made and maintained by me.
 developed using (mainly) concepts of forth (https://en.wikipedia.org/wiki/Forth_(programming_language)) with some adaptations.
 
+little preview (does not include all the features, may be outdated):
+[![asciicast](https://asciinema.org/a/O1pncmWB9BRfhynIo26b1qtMj.svg)](https://asciinema.org/a/O1pncmWB9BRfhynIo26b1qtMj)
+
 # warning
 
 the programming language is very barebones and not practical and usable for daily problem solving.  
