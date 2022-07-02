@@ -1,7 +1,7 @@
 # yasblang
 
 yasblang (yet another stack based {programming} language) is a programming language made and maintained by me.
-developed using concepts of forth (https://en.wikipedia.org/wiki/Forth_(programming_language)).
+developed using (mainly) concepts of forth (https://en.wikipedia.org/wiki/Forth_(programming_language)) with some adaptations.
 
 # warning
 
@@ -12,7 +12,7 @@ for now, check the source code to learn how to use the programming language (yik
 # compiling
 
 compilation was tested currently on windows 10 with G++ 11.3.0 but it will surely run with linux and other g++ versions.  
-to build, simply open the project folder, and type make in the console (make sure to install cmake on windows)
+to build, simply open the project folder, and type `make` in the console (make sure to install cmake on windows)
 
 # little FAQ
 
